@@ -1,0 +1,41 @@
+<div class="tab-pane active" id="tab-setting_menu_{{ menu_type }}">
+    <div class="form-group row mb-3">
+        <label class="col-sm-3 control-label col-form-label" for="module_dmenu_editor-status_{{ menu_type }}">{{ entry_status }}</label>
+        <div class="col-sm-9">
+            <select name="module_dmenu_editor_settings[menu][{{ menu_type }}][status]" id="module_dmenu_editor-status_{{ menu_type }}" class="form-select">
+                {% if module_settings['menu'][menu_type]['status'] %}
+                    <option value="1" selected="selected">{{ text_enabled }}</option>
+                    <option value="0">{{ text_disabled }}</option>
+                {% else %}
+                    <option value="1">{{ text_enabled }}</option>
+                    <option value="0" selected="selected">{{ text_disabled }}</option>
+                {% endif %}
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group row mb-3">
+        <label class="col-sm-3 control-label col-form-label" for="module_dmenu_editor-menu_{{ menu_type }}_close">{{ entry_menu_close }}</label>
+        <div class="col-sm-9">
+            <select name="module_dmenu_editor_settings[menu][{{ menu_type }}][close]" id="module_dmenu_editor-menu_{{ menu_type }}_close" class="form-select">
+                <option value="0" {% if module_settings['menu'][menu_type]['close'] == '0' %}selected="selected"{% endif %}>{{ text_by_button }}</option>
+                <option value="1" {% if module_settings['menu'][menu_type]['close'] == '1' %}selected="selected"{% endif %}>{{ text_by_gesture }}</option>
+                <option value="2" {% if module_settings['menu'][menu_type]['close'] == '2' %}selected="selected"{% endif %}>{{ text_by_button_gesture }}</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group row mb-3">
+        <label class="col-sm-3 control-label col-form-label" for="module_dmenu_editor-menu_{{ menu_type }}_icon_width">{{ entry_icon_dimensions }}</label>
+        <div class="col-sm-9">
+            <div class="row">
+                <div class="col-sm-2">
+                    <input type="number" name="module_dmenu_editor_settings[menu][{{ menu_type }}][icon][width]" step="1" min="1" value="{{ icon_dimensions['menu'][menu_type]['width'] }}" id="module_dmenu_editor-menu_{{ menu_type }}_icon_width" class="form-control" placeholder="{{ text_icon_width }}">
+                </div>
+                <div class="col-sm-2">
+                    <input type="number" name="module_dmenu_editor_settings[menu][{{ menu_type }}][icon][height]" step="1" min="1" value="{{ icon_dimensions['menu'][menu_type]['height'] }}" id="module_dmenu_editor-menu_{{ menu_type }}_icon_height" class="form-control" placeholder="{{ text_icon_height }}">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
