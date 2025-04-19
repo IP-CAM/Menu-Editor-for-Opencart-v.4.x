@@ -20,7 +20,7 @@ class DMenuEditor extends \Opencart\System\Engine\Model {
     public function getInformation(int $limit = 20): array {
         $information_data = array();
 
-        $query = $this->db->query("SELECT i.information_id FROM " . DB_PREFIX . "information i LEFT JOIN " . DB_PREFIX . "information_description id ON (i.information_id = id.information_id) WHERE id.language_id = '" . (int)$this->config->get('config_language_id') . "' AND i.status = '1' GROUP BY i.information_id ORDER BY id.title ASC LIMIT " . (int)$limit);
+        $query = $this->db->query("SELECT i.`information_id` FROM `" . DB_PREFIX . "information` i LEFT JOIN `" . DB_PREFIX . "information_description` id ON (i.`information_id` = id.`information_id`) WHERE id.`language_id` = '" . (int)$this->config->get('config_language_id') . "' AND i.`status` = '1' GROUP BY i.`information_id` ORDER BY id.`title` ASC LIMIT " . (int)$limit);
 
         // Get Description in all languages.
         foreach ($query->rows as $result) {
@@ -39,10 +39,10 @@ class DMenuEditor extends \Opencart\System\Engine\Model {
      * 
      * @return array $categories_data
      */
-    public function getCategories(int $limit = 20) {
+    public function getCategories(int $limit = 20): array {
         $categories_data = array();
 
-        $query = $this->db->query("SELECT c1.category_id, TRIM('0_' FROM CONCAT(GROUP_CONCAT(c2.parent_id ORDER BY cp.level SEPARATOR '_'), '_', c1.category_id)) AS path FROM " . DB_PREFIX . "category_path cp LEFT JOIN " . DB_PREFIX . "category c1 ON (cp.category_id = c1.category_id) LEFT JOIN " . DB_PREFIX . "category c2 ON (cp.path_id = c2.category_id) LEFT JOIN " . DB_PREFIX . "category_description cd1 ON (cp.path_id = cd1.category_id) LEFT JOIN " . DB_PREFIX . "category_description cd2 ON (cp.category_id = cd2.category_id) WHERE cd1.language_id = '" . (int)$this->config->get('config_language_id') . "' AND cd2.language_id = '" . (int)$this->config->get('config_language_id') . "' GROUP BY cp.category_id ORDER BY c1.date_added DESC LIMIT " . (int)$limit);
+        $query = $this->db->query("SELECT c1.`category_id`, TRIM('0_' FROM CONCAT(GROUP_CONCAT(c2.`parent_id` ORDER BY cp.`level` SEPARATOR '_'), '_', c1.`category_id`)) AS path FROM `" . DB_PREFIX . "category_path` cp LEFT JOIN `" . DB_PREFIX . "category` c1 ON (cp.`category_id` = c1.`category_id`) LEFT JOIN `" . DB_PREFIX . "category` c2 ON (cp.`path_id` = c2.`category_id`) LEFT JOIN `" . DB_PREFIX . "category_description` cd1 ON (cp.`path_id` = cd1.`category_id`) LEFT JOIN `" . DB_PREFIX . "category_description` cd2 ON (cp.`category_id` = cd2.`category_id`) WHERE cd1.`language_id` = '" . (int)$this->config->get('config_language_id') . "' AND cd2.`language_id` = '" . (int)$this->config->get('config_language_id') . "' GROUP BY cp.`category_id` ORDER BY cd1.`name` DESC LIMIT " . (int)$limit);
 
         // Get Description in all languages.
         foreach ($query->rows as $result) {
@@ -61,13 +61,13 @@ class DMenuEditor extends \Opencart\System\Engine\Model {
      * 
      * @return array $products_data
      */
-    public function getProducts(int $limit = 20) {
+    public function getProducts(int $limit = 20): array {
         $categories = array();
         $products = array();
         $products_data = array();
 
         // Get Products from DB.
-        $query_products = $this->db->query("SELECT p.product_id, ptc.category_id FROM " . DB_PREFIX . "product p LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id) LEFT JOIN " . DB_PREFIX . "product_to_category ptc ON (p.product_id = ptc.product_id) WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') . "' AND p.status = '1' GROUP BY p.product_id ORDER BY p.date_added DESC LIMIT " . (int)$limit);
+        $query_products = $this->db->query("SELECT p.`product_id`, ptc.`category_id` FROM `" . DB_PREFIX . "product` p LEFT JOIN `" . DB_PREFIX . "product_description` pd ON (p.`product_id` = pd.`product_id`) LEFT JOIN `" . DB_PREFIX . "product_to_category` ptc ON (p.`product_id` = ptc.`product_id`) WHERE pd.`language_id` = '" . (int)$this->config->get('config_language_id') . "' AND p.`status` = '1' GROUP BY p.`product_id` ORDER BY p.`date_added` DESC LIMIT " . (int)$limit);
 
         // Array of categories.
         foreach ($query_products->rows as $result) {
@@ -77,7 +77,7 @@ class DMenuEditor extends \Opencart\System\Engine\Model {
         }
 
         // Get category Path.
-        $query_category_path = $this->db->query("SELECT c1.category_id, TRIM('0_' FROM CONCAT(GROUP_CONCAT(c2.parent_id ORDER BY cp.level SEPARATOR '_'), '_', c1.category_id)) AS path FROM " . DB_PREFIX . "category_path cp LEFT JOIN " . DB_PREFIX . "category c1 ON (cp.category_id = c1.category_id) LEFT JOIN " . DB_PREFIX . "category c2 ON (cp.path_id = c2.category_id) WHERE cp.category_id IN (" . implode(',', $categories) . ") GROUP BY cp.category_id");
+        $query_category_path = $this->db->query("SELECT c1.`category_id`, TRIM('0_' FROM CONCAT(GROUP_CONCAT(c2.`parent_id` ORDER BY cp.`level` SEPARATOR '_'), '_', c1.`category_id`)) AS path FROM `" . DB_PREFIX . "category_path` cp LEFT JOIN `" . DB_PREFIX . "category` c1 ON (cp.`category_id` = c1.`category_id`) LEFT JOIN `" . DB_PREFIX . "category` c2 ON (cp.`path_id` = c2.`category_id`) WHERE cp.`category_id` IN (" . implode(',', $categories) . ") GROUP BY cp.`category_id`");
 
         // Array of Products.
         foreach ($query_products->rows as $result) {
@@ -113,7 +113,7 @@ class DMenuEditor extends \Opencart\System\Engine\Model {
      * 
      * @return array $manufacturers_data
      */
-    public function getManufacturers(int $limit = 20) {
+    public function getManufacturers(int $limit = 20): array {
         $this->load->model('localisation/language');
 
         // All languages.
@@ -121,7 +121,7 @@ class DMenuEditor extends \Opencart\System\Engine\Model {
 
         $manufacturers_data = array();
 
-        $query = $this->db->query("SELECT m.manufacturer_id, m.name FROM " . DB_PREFIX . "manufacturer m GROUP BY m.manufacturer_id ORDER BY m.name ASC LIMIT " . (int)$limit);
+        $query = $this->db->query("SELECT m.`manufacturer_id`, m.`name` FROM `" . DB_PREFIX . "manufacturer` m GROUP BY m.`manufacturer_id` ORDER BY m.`name` ASC LIMIT " . (int)$limit);
 
         // Get Description in all languages.
         foreach ($query->rows as $result) {
@@ -158,7 +158,7 @@ class DMenuEditor extends \Opencart\System\Engine\Model {
         $table_name = DB_PREFIX . 'topic';
 
         if ($this->tableExists($table_name)) {
-            $query = $this->db->query("SELECT t.topic_id FROM " . DB_PREFIX . "topic t LEFT JOIN " . DB_PREFIX . "topic_description td ON (t.topic_id = td.topic_id) WHERE td.language_id = '" . (int)$this->config->get('config_language_id') . "' AND t.status = '1' GROUP BY t.topic_id ORDER BY td.name ASC LIMIT " . (int)$limit);
+            $query = $this->db->query("SELECT t.`topic_id` FROM `" . DB_PREFIX . "topic` t LEFT JOIN `" . DB_PREFIX . "topic_description` td ON (t.`topic_id` = td.`topic_id`) WHERE td.language_id = '" . (int)$this->config->get('config_language_id') . "' AND t.`status` = '1' GROUP BY t.`topic_id` ORDER BY td.`name` ASC LIMIT " . (int)$limit);
 
             // Get Description in all languages.
             foreach ($query->rows as $result) {
@@ -185,7 +185,7 @@ class DMenuEditor extends \Opencart\System\Engine\Model {
 
         if ($this->tableExists($table_name)) {
             // Get Articles from DB.
-            $query_articles = $this->db->query("SELECT a.article_id, a.topic_id FROM " . DB_PREFIX . "article a LEFT JOIN " . DB_PREFIX . "article_description ad ON (a.article_id = ad.article_id) WHERE ad.language_id = '" . (int)$this->config->get('config_language_id') . "' AND a.status = '1' GROUP BY a.article_id ORDER BY a.date_added DESC LIMIT " . (int)$limit);
+            $query_articles = $this->db->query("SELECT a.`article_id`, a.`topic_id` FROM `" . DB_PREFIX . "article` a LEFT JOIN `" . DB_PREFIX . "article_description` ad ON (a.`article_id` = ad.`article_id`) WHERE ad.`language_id` = '" . (int)$this->config->get('config_language_id') . "' AND a.`status` = '1' GROUP BY a.`article_id` ORDER BY a.`date_added` DESC LIMIT " . (int)$limit);
 
             // Get Description in all languages.
             foreach ($query_articles->rows as $result) {
@@ -196,6 +196,16 @@ class DMenuEditor extends \Opencart\System\Engine\Model {
         }
 
         return $blog_articles_data;
+    }
+
+    /**
+     * Get Stores.
+     *
+     * @return array $query->rows
+     */
+    public function getStores(): array {
+        $query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "store` s ORDER BY s.`store_id`");
+        return $query->rows;
     }
 
     /**
@@ -214,61 +224,61 @@ class DMenuEditor extends \Opencart\System\Engine\Model {
             // Information.
             case 'information':
                 $layout_id = 'information_id';
-                $order_by = 'id.title';
-                $group_by = 'i.information_id';
+                $order_by = 'id.`title`';
+                $group_by = 'i.`information_id`';
 
-                $sql = "SELECT i.information_id FROM " . DB_PREFIX . "information i LEFT JOIN " . DB_PREFIX . "information_description id ON (i.information_id = id.information_id) WHERE id.language_id = '" . (int)$this->config->get('config_language_id') . "' AND i.status = '1' AND (";
+                $sql = "SELECT i.`information_id` FROM `" . DB_PREFIX . "information` i LEFT JOIN `" . DB_PREFIX . "information_description` id ON (i.`information_id` = id.`information_id`) WHERE id.`language_id` = '" . (int)$this->config->get('config_language_id') . "' AND i.`status` = '1' AND (";
 
                 break;
 
             // Category.
             case 'category':
                 $layout_id = 'category_id';
-                $order_by = 'cd.name';
-                $group_by = 'c.category_id';
+                $order_by = 'cd.`name`';
+                $group_by = 'c.`category_id`';
 
-                $sql = "SELECT c.category_id FROM " . DB_PREFIX . "category c LEFT JOIN " . DB_PREFIX . "category_description cd ON (c.category_id = cd.category_id) WHERE cd.language_id = '" . (int)$this->config->get('config_language_id') . "' AND c.status = '1' AND (";
+                $sql = "SELECT c.`category_id` FROM `" . DB_PREFIX . "category` c LEFT JOIN `" . DB_PREFIX . "category_description` cd ON (c.`category_id` = cd.`category_id`) WHERE cd.`language_id` = '" . (int)$this->config->get('config_language_id') . "' AND c.`status` = '1' AND (";
 
                 break;
 
             // Product.
             case 'product':
                 $layout_id = 'product_id';
-                $order_by = 'pd.name';
-                $group_by = 'p.product_id';
+                $order_by = 'pd.`name`';
+                $group_by = 'p.`product_id`';
 
-                $sql = "SELECT p.product_id FROM " . DB_PREFIX . "product p LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id) WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') . "' AND p.status = '1' AND (";
+                $sql = "SELECT p.`product_id` FROM `" . DB_PREFIX . "product` p LEFT JOIN `" . DB_PREFIX . "product_description` pd ON (p.`product_id` = pd.`product_id`) WHERE pd.`language_id` = '" . (int)$this->config->get('config_language_id') . "' AND p.`status` = '1' AND (";
 
                 break;
 
             // Manufacturer.
             case 'manufacturer':
                 $layout_id = 'manufacturer_id';
-                $order_by = 'm.name';
-                $group_by = 'm.manufacturer_id';
+                $order_by = 'm.`name`';
+                $group_by = 'm.`manufacturer_id`';
                 $title = 'name';
 
-                $sql = "SELECT m.manufacturer_id, m.name FROM " . DB_PREFIX . "manufacturer m WHERE (";
+                $sql = "SELECT m.`manufacturer_id`, m.`name` FROM `" . DB_PREFIX . "manufacturer` m WHERE (";
 
                 break;
 
             // CMS Blog Categories.
             case 'blog_category':
                 $layout_id = 'topic_id';
-                $order_by = 'td.name';
-                $group_by = 't.topic_id';
+                $order_by = 'td.`name`';
+                $group_by = 't.`topic_id`';
 
-                $sql = "SELECT t.topic_id FROM " . DB_PREFIX . "topic t LEFT JOIN " . DB_PREFIX . "topic_description td ON (t.topic_id = td.topic_id) WHERE td.language_id = '" . (int)$this->config->get('config_language_id') . "' AND t.status = '1' AND (";
+                $sql = "SELECT t.`topic_id` FROM `" . DB_PREFIX . "topic` t LEFT JOIN `" . DB_PREFIX . "topic_description` td ON (t.`topic_id` = td.`topic_id`) WHERE td.`language_id` = '" . (int)$this->config->get('config_language_id') . "' AND t.`status` = '1' AND (";
 
                 break;
 
             // CMS Blog Articles.
             case 'blog_article':
                 $layout_id = 'article_id';
-                $order_by = 'ad.name';
-                $group_by = 'a.article_id';
+                $order_by = 'ad.`name`';
+                $group_by = 'a.`article_id`';
 
-                $sql = "SELECT a.article_id FROM " . DB_PREFIX . "article a LEFT JOIN " . DB_PREFIX . "article_description ad ON (a.article_id = ad.article_id) WHERE ad.language_id = '" . (int)$this->config->get('config_language_id') . "' AND a.status = '1' AND (";
+                $sql = "SELECT a.`article_id` FROM `" . DB_PREFIX . "article` a LEFT JOIN `" . DB_PREFIX . "article_description` ad ON (a.`article_id` = ad.`article_id`) WHERE ad.`language_id` = '" . (int)$this->config->get('config_language_id') . "' AND a.`status` = '1' AND (";
 
                 break;
 
@@ -342,31 +352,31 @@ class DMenuEditor extends \Opencart\System\Engine\Model {
             // Information.
             case 'information':
                 $search_column = 'title';
-                $query = $this->db->query("SELECT id.title, id.language_id FROM " . DB_PREFIX . "information_description id WHERE id.information_id = '" . (int)$id . "'");
+                $query = $this->db->query("SELECT id.`title`, id.`language_id` FROM `" . DB_PREFIX . "information_description` id WHERE id.`information_id` = '" . (int)$id . "'");
                 break;
 
             // Category.
             case 'category':
                 $search_column = 'name';
-                $query = $this->db->query("SELECT cd.name, cd.language_id FROM " . DB_PREFIX . "category_description cd WHERE cd.category_id = '" . (int)$id . "'");
+                $query = $this->db->query("SELECT cd.`name`, cd.`language_id` FROM `" . DB_PREFIX . "category_description` cd WHERE cd.`category_id` = '" . (int)$id . "'");
                 break;
 
             // Product.
             case 'product':
                 $search_column = 'name';
-                $query = $this->db->query("SELECT pd.name, pd.language_id FROM " . DB_PREFIX . "product_description pd WHERE pd.product_id = '" . (int)$id . "'");
+                $query = $this->db->query("SELECT pd.`name`, pd.`language_id` FROM `" . DB_PREFIX . "product_description` pd WHERE pd.`product_id` = '" . (int)$id . "'");
                 break;
 
             // CMS Blog Category.
             case 'blog_category':
                 $search_column = 'name';
-                $query = $this->db->query("SELECT td.name, td.language_id FROM " . DB_PREFIX . "topic_description td WHERE td.topic_id = '" . (int)$id . "'");
+                $query = $this->db->query("SELECT td.`name`, td.`language_id` FROM `" . DB_PREFIX . "topic_description` td WHERE td.`topic_id` = '" . (int)$id . "'");
                 break;
 
             // CMS Blog Article.
             case 'blog_article':
                 $search_column = 'name';
-                $query = $this->db->query("SELECT ad.name, ad.language_id FROM " . DB_PREFIX . "article_description ad WHERE ad.article_id = '" . (int)$id . "'");
+                $query = $this->db->query("SELECT ad.`name`, ad.`language_id` FROM `" . DB_PREFIX . "article_description` ad WHERE ad.`article_id` = '" . (int)$id . "'");
                 break;
 
             // etc.
@@ -581,7 +591,7 @@ class DMenuEditor extends \Opencart\System\Engine\Model {
     private function getSeoUrls(string $key, string $value): array {
         $seo_url_data = array();
 
-        $query = $this->db->query("SELECT su.language_id, su.keyword FROM `" . DB_PREFIX . "seo_url` su WHERE `key` = '" . $key . "' AND `value` = '" . $value . "'");
+        $query = $this->db->query("SELECT su.`language_id`, su.`keyword` FROM `" . DB_PREFIX . "seo_url` su WHERE su.`key` = '" . $key . "' AND su.`value` = '" . $value . "'");
 
         foreach ($query->rows as $result) {
             $seo_url_data[$result['language_id']] = $result['keyword'];

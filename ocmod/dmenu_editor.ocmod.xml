@@ -2,7 +2,7 @@
 <modification>
     <name>D.Menu Editor</name>
     <code>DMenuEditor</code>
-    <version>1.1.0</version>
+    <version>1.2.1</version>
     <author>D.art</author>
 
     <file path="catalog/controller/common/header.php">
@@ -66,7 +66,13 @@
 
         // D.Menu Editor. Main Menu.
         if ($this->config->get('module_dmenu_editor_status') && $module_dmenu_editor_settings['menu']['main']['status']) {
-            $data['menu'] = $this->load->controller('extension/dmenu_editor/module/dmenu_editor', array('menu_type' => 'main'));
+            // Filter data.
+            $dmenu_filter_data = array(
+                'menu_type' => 'main'
+            );
+
+            // Main Menu HTML.
+            $data['menu'] = $this->load->controller('extension/dmenu_editor/module/dmenu_editor', $dmenu_filter_data);
         } else {
             $data['menu'] = $this->load->controller('common/menu');
         }
