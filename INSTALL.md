@@ -4,7 +4,7 @@
 <body>
     <h1>Install</h1>
     <p>This is for new installation only.</p>
-    <h2>Installation on version 4.x:</h2>
+    <h2>Installation on OpenCart 4.x:</h2>
     <p>
         <ol>
             <li>Download the archive to a convenient disk location. If the archive is not an OCMOD-extension, unpack the archive.</li>
