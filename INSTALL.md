@@ -1,10 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>D.Menu Editor - INSTALL.md</title>
-    <meta name="viewport" content="width=device-width">
-</head>
+<head></head>
 <body>
     <h1>Install</h1>
     <p>This is for new installation only.</p>
