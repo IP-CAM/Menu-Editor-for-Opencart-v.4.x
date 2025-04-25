@@ -17,18 +17,6 @@
             <li>The individual template may require modification.</li>
         </ul>
     </p>
-    <h3>Groups of menu items to add:</h3>
-    <p>
-        <ol>
-            <li>Pages: Custom link, Home Page, OpenCart Pages.</li>
-            <li>Information.</li>
-            <li>Categories of products: Catalog (all categories), Categories.</li>
-            <li>Products.</li>
-            <li>Manufacturers.</li>
-            <li>Blog articles (OpenCart 4.1+).</li>
-            <li>Blog categories (OpenCart 4.1+).</li>
-        </ol>
-    </p>
     <h3>Advantages:</h3>
     <p>
         <ul>
@@ -48,6 +36,18 @@
             <li>the ability to specify additional attributes for each menu item (except for the Catalog): target, rel, class;</li>
             <li>search for information, product categories, products, manufacturers, blog categories (OpenCart 4.1+), blog articles (OpenCart 4.1+).</li>
         </ul>
+    </p>
+    <h3>Groups of menu items to add:</h3>
+    <p>
+        <ol>
+            <li>Pages: Custom link, Home Page, OpenCart Pages.</li>
+            <li>Information.</li>
+            <li>Categories of products: Catalog (all categories), Categories.</li>
+            <li>Products.</li>
+            <li>Manufacturers.</li>
+            <li>Blog articles (OpenCart 4.1+).</li>
+            <li>Blog categories (OpenCart 4.1+).</li>
+        </ol>
     </p>
     <h3>Compatibility:</h3>
     <p>
